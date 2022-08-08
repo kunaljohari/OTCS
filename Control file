@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<import>
+	
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Computer Software Validation:IT</location>
+		<title>OpenText</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Computer Software Validation:R&amp;D</location>
+		<title>OpenText</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Computer Software Validation:GSC</location>
+		<title>OpenText</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Equipment:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Process:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Product:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Approved:Cleaning:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 
+	  <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Computer Software Validation:IT</location>
+		<title>OpenText</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Computer Software Validation:R&amp;D</location>
+		<title>OpenText</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Computer Software Validation:GSC</location>
+		<title>OpenText</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Equipment:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Process:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Product:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Vault:Cleaning:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 
+	 
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Computer Software Validation:IT</location>
+		<title>OpenText</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Computer Software Validation:R&amp;D</location>
+		<title>OpenText</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Computer Software Validation:GSC</location>
+		<title>OpenText</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Equipment:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Process:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Product:GSC</location>
+		<title>Agincourt</title>
+     </node>
+	 
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:R&amp;D</location>
+		<title>Melville</title>
+     </node>
+	<node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:GSC</location>
+		<title>Melville</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:R&amp;D</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:GSC</location>
+		<title>Whitman</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:R&amp;D</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:GSC</location>
+		<title>Oevel</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:R&amp;D</location>
+		<title>Agincourt</title>
+     </node>
+	 <node type="folder" action="create">
+		<location>Enterprise:ELC Validation documents:Work In Progress:Cleaning:GSC</location>
+		<title>Agincourt</title>
+     </node>
+</import>
