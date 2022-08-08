@@ -1,0 +1,212 @@
+select distinct c.DataID, c.Name, c.CreateDate from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum  inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID=right(b.regionname,1)  where  c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0')  and d.dataid=c.ParentID) 
+  and b.CatName in('ELC Test');
+
+------------------------------------------------------------------------------------
+select c.dataid,c.name,max(security_level) as security_level,max(PublicationID)as PublicationID,max(Responsible_PMG) as Responsible_PMG ,
+                max(Function_subsytem) as Function_subsytem,max(Release_Date) as Release_Date,max(Language_) as Language_,
+                max(Expiration_Date) as Expiration_Date,max(Available_in_print) as Available_in_print
+    from(
+         select c.dataid,c.name,
+         --case when  b.Catid='45874' then 'EBAC Document' when  b.Catid='45653' then 'PMS Document' end as Category_Name,
+         case when b.AttrType=12 and a.AttrID=2 then a.Valint end as security_level,
+         case when b.AttrType=-1 and a.attrid=2 then a.ValStr end as PublicationID,
+         case when b.AttrType=-1 and a.AttrID=3 then a.ValStr end as Responsible_PMG ,
+         case when b.AttrType=-1 and a.attrid=4 then a.ValStr end as Function_subsytem,
+         case when b.AttrType in(-7,13) and a.AttrID=6 then a.ValDate end as Release_Date,
+         case when b.AttrType=-1 and a.attrid=7 then a.ValStr end as Language_,
+         case when b.AttrType in(-7,13) and a.AttrID=8 then a.ValDate end as Expiration_Date,
+         case when b.AttrType=10 and a.attrid=9 then a.ValStr end as Available_in_print
+
+ 
+
+             from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                                inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+                                  where  c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+                                                       and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+                                                       and b.CatName in('EBAC Document','PMS Document') 
+            
+    )c group by c.DataID,c.name;
+             
+--(verified)
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 
+
+SELECT distinct a.name as DOCUMENT_NAME,a.dataid as DocumentID,
+                 VSTRING = STUFF((SELECT DISTINCT ', ' + b.valstr FROM LLAttrdata b  WHERE b.id = a.dataid FOR XML PATH('')), 1, 2, ''),
+                 VNUM=STUFF((SELECT DISTINCT ( ', '  + cast(b.valint as varchar(400)))  FROM LLAttrdata b  WHERE b.id = a.dataid FOR XML PATH('')), 1, 2, ''),
+                 VREAL=STUFF((SELECT DISTINCT ( ', '  + cast(b.ValReal as varchar(400)))  FROM LLAttrdata b  WHERE b.id = a.dataid FOR XML PATH('')), 1, 2, ''),
+                 VKEYID=STUFF((SELECT DISTINCT ( ', '  + cast(b.KeyID as varchar(400)))  FROM LLAttrdata b  WHERE b.id = a.dataid FOR XML PATH('')), 1, 2, ''),
+                 VDATE=STUFF((SELECT DISTINCT ( ', '  + cast(b.valDate as varchar(400)))  FROM LLAttrdata b  WHERE b.id = a.dataid FOR XML PATH('')), 1, 2, '')
+FROM llattrdata c inner join dtree a on a.dataid=c.id 
+                  inner join catregionmap e on c.DefID = e.CatID and c.AttrID= right(e.regionname,1)
+                  where a.subtype=144 and a.parentid in (select d.dataid from dtree d where d.subtype in('0','136') and d.dataid=a.ParentID) and a.ExAtt1 is NULL
+                 and e.catname in('EBAC Document','PMS Document')
+ORDER BY a.name,a.dataid; --(this is in single column)
+
+---------------------------------------------------------------------------------------------------------
+
+select dt.DataID, dt5.Name ParentName, dvd.FileType, dvd.Version,  
+CASE WHEN dvd.DataSize < 1000000 THEN
+CONCAT(CEILING(dvd.DataSize / 1024.0), 'KB')
+ELSE 
+CONCAT(CEILING(dvd.DataSize / 1048576.0), 'MB')
+END AS FileSize,
+dt.Name, dt.CreateDate, crm1.CatName, crm1.AttrName, 
+CASE WHEN llad.AttrType = -1 THEN 'String'
+WHEN llad.AttrType = -7 THEN 'Date'
+ELSE CAST(llad.AttrType AS varchar)
+END AS AttrTypeName,
+llad.ValInt, llad.ValReal, FORMAT(llad.ValDate, 'dd-MM-yy') ValDate, llad.ValStr, llad.ValLong from LLAttrData llad 
+INNER JOIN CatRegionMap crm1 ON llad.DefID = crm1.CatID AND RIGHT(crm1.RegionName,1) = llad.AttrID 
+INNER JOIN DTree dt ON dt.DataID = llad.ID 
+INNER JOIN DTree dt5 ON dt5.DataID = dt.ParentID 
+INNER JOIN DVersData dvd ON dt.DataID = dvd.DocID AND dvd.Version = dt.VersionNum AND dt.VersionNum = llad.VerNum AND dvd.VerType IS NULL 
+where DEFID in (select distinct llad1.DefID from LLAttrData llad1 where llad1.ID=dt.DataID) AND llad.ID IN 
+(select dt2.DataID from DTree dt2 
+INNER JOIN DTree dt3 ON dt3.DataID = dt2.ParentID 
+where dt2.SubType in (144) AND dt2.ExAtt1 IS NULL AND dt2.ParentID > 10000 AND dt2.ParentID in (select dt4.DataID from DTree dt4 where dt4.SubType in (0,136))) 
+AND (ValInt is not null OR ValReal is not null OR ValDate is not null OR ValStr is not null OR ValLong is not null) 
+AND llad.AttrID <> 1 
+GROUP BY dt.DataID, dt5.Name, dvd.FileType, dvd.Version, dvd.DataSize, dt.Name, dt.CreateDate, crm1.CatName, crm1.AttrName, 
+llad.AttrType, llad.ValInt, llad.ValReal, ValDate, llad.ValStr, llad.ValLong;
+
+---------------------------------------------------------------------------------------
+
+select c.dataid,c.name,max(security_level) as security_level,max(PublicationID)as PublicationID,max(Responsible_PMG) as Responsible_PMG ,
+                max(Function_subsytem) as Function_subsytem,max(Release_Date) as Release_Date,max(Language_) as Language_,
+                max(Expiration_Date) as Expiration_Date,max(Available_in_print) as Available_in_print,max(IST_Product_ID) as IST_Product_ID,max(Product_Group) as Product_Group
+    from(
+         select c.dataid,c.name,
+         case when b.catid=45874 and b.AttrType=12 and a.AttrID=2 then a.Valint end as security_level,
+         case when b.catid=45653 and b.AttrType=-1 and a.attrid=2 then a.ValStr end as PublicationID,
+         case when b.catid=45653 and b.AttrType=-1 and a.AttrID=3 then a.ValStr end as Responsible_PMG ,
+         case when b.catid=45653 and b.AttrType=-1 and a.attrid=4 then a.ValStr end as Function_subsytem,
+         case when b.catid=45653 and b.AttrType in(-7,13) and a.AttrID=6 then a.ValDate end as Release_Date,
+         case when b.catid=45653 and b.AttrType=-1 and a.attrid=7 then a.ValStr end as Language_,
+         case when b.catid=45653 and b.AttrType in(-7,13) and a.AttrID=8 then a.ValDate end as Expiration_Date,
+         case when b.catid=45653 and b.AttrType=10 and a.attrid=9 then a.ValStr end as Available_in_print,
+         case when  b.catid=45767 and b.AttrType=-1 and a.attrid=2 then a.valstr end as IST_Product_ID,
+         case when  b.catid=45767 and b.AttrType=-1 and a.attrid=3 then a.valstr end as Product_Group
+
+ 
+
+             from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                                inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+                                  where  c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+                                                       and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+                                                       and b.CatName in('EBAC Document','PMS Document','Product Classification') 
+            
+    )c group by c.DataID,c.name;
+
+========================================================================================================
+
+--Approach 1:Using joins
+
+select distinct c.dataid,c.name,a.valstr as publication_ID,ab.valstr as Responsible_PMG,ac.valstr as Function_subsytem,ad.valdate as Release_Date,ae.valstr as Language_,af.ValDate as Expiration_Date,ag.valstr as Available_in_print,ah.ValInt as Secuirty_level,ai.valstr as IST_Product_ID,aj.valstr as Product_Group
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+			                    inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+								inner join llattrdata ab on a.id=ab.id and ab.VerNum=c.VersionNum and ab.defid=b.catid 
+								inner join llattrdata ac on ab.id=ac.id and ac.VerNum=c.VersionNum and ac.defid=b.catid
+								inner join llattrdata ad on ac.id=ad.id and ad.VerNum=c.VersionNum and ad.defid=b.catid
+								inner join llattrdata ae on ad.id=ae.id and ae.VerNum=c.VersionNum and ae.defid=b.catid
+								inner join llattrdata af on ae.id=af.id and af.VerNum=c.VersionNum and af.defid=b.catid
+								inner join llattrdata ag on af.id=ag.id and ag.VerNum=c.VersionNum and ag.defid=b.catid
+								
+								inner join llattrdata ah on ag.id=ah.id and ah.VerNum=c.VersionNum --and ah.defid=b.catid 
+							    inner join llattrdata ai on ah.id=ai.id and ai.VerNum=c.VersionNum
+								inner join llattrdata aj on ai.id=aj.id and aj.VerNum=c.VersionNum
+							   
+							   
+
+			                      where a.AttrType=-1 and a.attrid=2 and ab.attrType=-1 and ab.attrid=3  and ac.AttrType=-1 and ac.attrid=4  and ad.AttrType in(-7,13) and ad.AttrID=6  and ae.AttrType=-1  and ae.attrid=7  and  af.AttrType in(-7,13) and af.AttrID=8 and ag.AttrType=10 
+								       and ag.attrid=9  and ah.AttrType=12 and ah.attrid=2 and ah.defid=45874 and ai.AttrType=-1 and ai.AttrID=2 and ai.defid=45767 and aj.AttrType=-1 and aj.AttrID=3 and aj.defid=45767
+								  
+								  and c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+			                                           and d.dataid=c.ParentID) and c.ExAtt1 is NULL and a.defid in ('45653','45874','45767')
+													  -- and b.CatName in('EBAC Document','PMS Document') 
+									order by c.dataid,c.name  asc   --,a.valstr,ab.valstr,ac.valstr,ad.valdate,ae.valstr,af.ValDate,ag.valstr,ah.ValInt
+
+
+-=============================================================================================================================================================================================================================================================================================================================================
+
+--Approach 2:Using case conditions
+
+select c.dataid,c.name,max(security_level) as security_level,max(PublicationID)as PublicationID,max(Responsible_PMG) as Responsible_PMG ,
+                max(Function_subsytem) as Function_subsytem,max(Release_Date) as Release_Date,max(Language_) as Language_,
+				max(Expiration_Date) as Expiration_Date,max(Available_in_print) as Available_in_print,max(IST_Product_ID) as IST_Product_ID,max(Product_Group) as Product_Group
+	from(
+         select c.dataid,c.name,
+         case when b.catid=45874 and b.AttrType=12 and a.AttrID=2 then a.Valint end as security_level,
+         case when b.catid=45653 and b.AttrType=-1 and a.attrid=2 then a.ValStr end as PublicationID,
+         case when b.catid=45653 and b.AttrType=-1 and a.AttrID=3 then a.ValStr end as Responsible_PMG ,
+         case when b.catid=45653 and b.AttrType=-1 and a.attrid=4 then a.ValStr end as Function_subsytem,
+         case when b.catid=45653 and b.AttrType in(-7,13) and a.AttrID=6 then a.ValDate end as Release_Date,
+         case when b.catid=45653 and b.AttrType=-1 and a.attrid=7 then a.ValStr end as Language_,
+         case when b.catid=45653 and b.AttrType in(-7,13) and a.AttrID=8 then a.ValDate end as Expiration_Date,
+         case when b.catid=45653 and b.AttrType=10 and a.attrid=9 then a.ValStr end as Available_in_print,
+		 case when  b.catid=45767 and b.AttrType=-1 and a.attrid=2 then a.valstr end as IST_Product_ID,
+		 case when  b.catid=45767 and b.AttrType=-1 and a.attrid=3 then a.valstr end as Product_Group
+
+             from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+			                    inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+			                      where  c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+			                                           and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+													   and b.CatName in('EBAC Document','PMS Document','Product Classification') 
+			
+	)c group by c.DataID,c.name;
+
+
+-================================================================================================================================================================================================================================================
+
+--for querying separtely in datasets
+
+   --for ebac
+select distinct c.dataid,c.name,a.valint as security_level
+               from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                     inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+								 where a.AttrType=12 and a.attrid=2 
+								  and c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+			                                           and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+													   and b.CatName in('EBAC Document','PMS Document') 
+									order by c.dataid,c.name    
+
+  --for Product classification
+   
+         select distinct c.dataid,c.name,a.valstr as IST_Product_ID,ab.valstr as Product_Group
+                       from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+			                    inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+								inner join llattrdata ab on a.id=ab.id and ab.defid=b.catid 
+								
+			                      where a.AttrType=-1 and a.attrid=2  and ab.AttrType=-1 and ab.attrid=3 and b.CatID=45767 
+								  and c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+			                                           and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+									order by c.dataid,c.name     
+
+
+   --for pms
+
+
+
+select distinct c.dataid,c.name,a.valstr as publication_ID,ab.valstr as Responsible_PMG,ac.valstr as Function_subsytem,ad.valdate as Release_Date,ae.valstr as Language_,af.ValDate as Expiration_Date,ag.valstr as Available_in_print
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+			                    inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+								inner join llattrdata ab on a.id=ab.id and ab.defid=b.catid 
+								inner join llattrdata ac on a.id=ac.id and ac.defid=b.catid
+								inner join llattrdata ad on a.id=ad.id and ad.defid=b.catid
+								inner join llattrdata ae on a.id=ae.id and ae.defid=b.catid
+								inner join llattrdata af on a.id=af.id and af.defid=b.catid
+								inner join llattrdata ag on a.id=ag.id and ag.defid=b.catid
+								
+			                      where a.AttrType=-1 and a.attrid=2  and ab.attrType=-1 and ab.attrid=3 and ac.AttrType=-1 and ac.attrid=4 and ad.AttrType in(-7,13) and ad.AttrID=6 and ae.AttrType=-1 and ae.attrid=7 and  af.AttrType in(-7,13) and af.AttrID=8  and ag.AttrType=10 and ag.attrid=9 --and ah.AttrType=12
+								  
+								  and c.subtype=144 and c.parentid in (select d.dataid from dtree d where d.subtype in('0','136') 
+			                                           and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+													   and b.CatName in('EBAC Document','PMS Document') 
+									order by c.dataid,c.name    
+
+
+-=======================================================================================================================================================================================================================================================================================================================================
