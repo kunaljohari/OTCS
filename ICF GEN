@@ -1,0 +1,320 @@
+using System;
+using System.Data;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Configuration;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+using NLog;
+using ObjectImporter;
+using System.Xml.Linq;
+using System.IO;
+
+namespace ICFGenerator
+{
+    public partial class FormMain : Form
+    {
+        Logger log = LogManager.GetCurrentClassLogger();
+        public FormMain()
+        {
+            InitializeComponent();
+        }
+
+        private async void BrowseMappingFileButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                log.Debug("Opening mapping file selection dialog");
+                MappingSheetname.Items.Clear();
+                using (var mappingFileDialog = new OpenFileDialog())
+                {
+                    mappingFileDialog.CheckFileExists = true;
+                    mappingFileDialog.RestoreDirectory = true;
+                    mappingFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+
+                    if (mappingFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        MappingFilename.Text = mappingFileDialog.FileName;
+                        log.Debug("Closing mapping file selection dialog");
+                    }
+                }
+                await LoadSheetnames(MappingFilename.Text);
+            }
+            catch(Exception ex)
+            {
+                log.Error("Could not open file dialog : " + ex.Message);
+                MessageBox.Show("Could not open file dialog");
+            }
+        }
+
+        private async Task LoadSheetnames(string mappingFilename)
+        {
+            try
+            {
+                log.Debug("Retrieving sheet names from {MappingFile}", mappingFilename);
+                var mappingFile = new ExcelFile(mappingFilename);
+                DataTable sheetInfo = await mappingFile.GetExcelSheetInfoAsync();
+
+                if (sheetInfo != null)
+                {
+                    log.Debug("Loading sheet names into sheet selection dropdown box");
+                    foreach (DataRow row in sheetInfo.Rows)
+                    {
+                        var sheetname = row["TABLE_NAME"]
+                                            .ToString()
+                                            .Trim('\'')
+                                            .TrimEnd('$');
+
+                        MappingSheetname.Items.Add(sheetname);
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Error("Could not retrieve sheet names from {MappingFile} : " + ex.Message, mappingFilename);
+                MessageBox.Show("Could not retrieve sheet names from mapping file");
+            }
+        }
+
+        private void MappingSheetname_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(MappingFilename.Text) && !string.IsNullOrWhiteSpace(MappingSheetname.Text))
+            {
+                GenerateControlFileButton.Enabled = true;
+            }
+        }
+
+        private async void GenerateControlFileButton_Click(object sender, EventArgs e)
+        {
+            GenerateControlFileButton.Enabled = false;
+            LoadingImageBox.Visible = true;
+
+            var mappingFilename = MappingFilename.Text;
+            var mappingSheetname = MappingSheetname.Text;
+
+            try
+            {
+                log.Debug("Generating Control file");
+                log.Info("{MappingFile} selected as mapping file", mappingFilename);
+                log.Info("{MappingSheet} selected as mapping sheet", mappingSheetname);
+
+                var mappingFile = new ExcelFile(mappingFilename, mappingSheetname);
+                var mappingSheetData = await mappingFile.ReadMappingSheetDataAsync();
+
+                if (mappingSheetData != null && mappingSheetData.Rows.Count > 0)
+                {
+                    log.Info("Number of data rows found in mapping sheet : " + mappingSheetData.Rows.Count);
+                    await Task.Run(() =>
+                    {
+                        var documents = GenerateDocuments(mappingSheetData);
+                        var import = AddImportNodes(documents);
+                        if (import.Nodes.Count > 0)
+                        {
+                            WriteControlFile(import);
+                            
+                        }
+                    });
+                }
+                LoadingImageBox.Visible = false;
+                MessageBox.Show("Program execution complete!");
+                GenerateControlFileButton.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.Message);
+            }
+        }
+
+        private List<Document> GenerateDocuments(DataTable mappingSheetData)
+        {
+            var documents = new List<Document>();
+            var dmsCategoryPath = ConfigurationManager.AppSettings["DmsCategoryPath"];
+            var dmsMetadataInfo = GetMetadataInfo();
+
+            log.Debug("Generating document objects from data rows");
+            foreach (DataRow row in mappingSheetData.Rows)
+            {
+                Document document = row;
+                if (document != null)
+                {
+                    var emptyDocumentProperties = document.GetType().GetRuntimeProperties()
+                        .Where(prop => prop.PropertyType == typeof(string) && string.IsNullOrWhiteSpace(prop.GetValue(document).ToString()));
+
+                    if(emptyDocumentProperties.Count() > 0)
+                    {
+                        log.Warn("Skipping processing of {Document} : Mandatory column value(s) set to empty", document.ToString());
+                        continue;
+                    }
+                    
+                    if (dmsMetadataInfo != null)
+                        document.LoadCategories(row, dmsMetadataInfo);
+
+                    documents.Add(document);
+                }
+            }
+            log.Info("Number of document objects generated from data rows : " + documents.Count);
+            return documents;
+        }
+
+        private XElement GetMetadataInfo()
+        {
+            XElement dmsMetadataInfo = null;
+            // Load the XML file containing the metadata structure from the project directory
+            var elcMetadataStructureFilename = ConfigurationManager.AppSettings["ElcMetadataStructureFilename"];
+            var currentDirectory = Directory.GetCurrentDirectory();
+            try
+            {
+                var elcMetadataStructureFilepath = Path.Combine(currentDirectory, elcMetadataStructureFilename);
+                dmsMetadataInfo = XElement.Load(elcMetadataStructureFilepath);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Could not load metadata structure information from {ElcMetadataStructureFilename} : " + ex.Message, elcMetadataStructureFilename);
+            }
+            return dmsMetadataInfo;
+        }
+
+        private Import AddImportNodes(List<Document> documents)
+        {
+            log.Debug("Generating import control file");
+            var import = new Import();
+            foreach (var document in documents)
+            {
+                try
+                {
+                    var node = new Node
+                    {
+                        Type = NodeType.document,
+                        Action = ActionType.create,
+                        Location = document.DestinationFilePath
+                    };
+
+                    node.Titles.Add(new Title() { Text = document.DestinationFilename });
+
+                    var filepath = document.SourceFilePath + document.SourceFilename;
+                    if (!FileUtilities.DoesFileExist(filepath))
+                        log.Warn("Could not find {File} for {Document}", filepath, document.ToString());
+                    node.File = filepath;
+                    node.Categories = GetCategories(document);
+
+                    import.Nodes.Add(node);
+                    log.Debug("Control file node generated from {Document} added to import control file", document.ToString());
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Could not generate control file node from {Document}: " + ex.Message, document.ToString());
+                }
+            }
+            log.Info("Number of document nodes added to import control file: " + import.Nodes.Count);
+            return import;
+        }
+
+        private void WriteControlFile(Import import)
+        {
+            log.Debug("Writing control file");
+            ControlFile icf = new ControlFile();
+            try
+            {
+                string outputFilePath = ConfigurationManager.AppSettings["OutputPath"];
+                string outputFilename = String.IsNullOrWhiteSpace(OutputFilename.Text) ? ConfigurationManager.AppSettings["DefaultOutputFilename"] : OutputFilename.Text;
+                string outputFileExtension = ".xml";
+
+                string writeFilepath = Path.Combine(outputFilePath, outputFilename + outputFileExtension);
+                icf.Write(writeFilepath, import, 1000);
+                log.Info("Import control file(s) written with {count} nodes", import.Nodes.Count);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Could not write data to import control file : " + ex.Message);
+                MessageBox.Show("Could not write data to import control file");
+            }
+        }
+
+        private List<Category> GetCategories(Document document)
+        {
+            log.Trace("Populating node category information from document objects");
+
+            var dmsCategoryPath = ConfigurationManager.AppSettings["DmsCategoryPath"];
+            var nodeCategories = new List<Category>();
+            Category nodeCategory = null;
+
+            var documentCategoryNames = document.Categories.Keys;
+            foreach (var documentCategoryName in documentCategoryNames)
+            {
+                nodeCategory = new Category
+                {
+                    Name = dmsCategoryPath + ":" + documentCategoryName
+                };
+                var documentAttributegroups = (Dictionary<string, object>)document.Categories[documentCategoryName];
+                
+
+                foreach (var documentAttributeType in documentAttributegroups.Keys)
+                {
+                    if(documentAttributeType == "default")
+                    {
+                        var documentAttributes = (Dictionary<string, string[]>)documentAttributegroups["default"];
+                        foreach (var documentAttributeName in documentAttributes.Keys)
+                        {
+                            var documentAttributeValues = documentAttributes[documentAttributeName];
+                            if (documentAttributeValues == null)
+                            {
+                                nodeCategory.Attributes.Add(new ObjectImporter.Attribute()
+                                {
+                                    Name = documentAttributeName,
+                                    Value = ""
+                                });
+                            }
+                            else
+                            {
+                                foreach (var documentAttributeValue in documentAttributes[documentAttributeName])
+                                {
+                                    nodeCategory.Attributes.Add(new ObjectImporter.Attribute()
+                                    {
+                                        Name = documentAttributeName,
+                                        Value = documentAttributeValue
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SetAttribute nodeSetAttribute = new SetAttribute
+                        {
+                            Name = documentAttributeType
+                        };
+
+                        var documentSetAttributes = (Dictionary<string, string[]>)documentAttributegroups[documentAttributeType];
+                        foreach (var documentSetAttributeName in documentSetAttributes.Keys)
+                        {
+                            var documentSetAttributeValues = documentSetAttributes[documentSetAttributeName];
+                            if(documentSetAttributeValues == null)
+                            {
+                                nodeSetAttribute.Attributes.Add(new ObjectImporter.Attribute()
+                                {
+                                    Name = documentSetAttributeName,
+                                    Value = ""
+                                });
+                            }
+                            else
+                            {
+                                foreach (var documentSetAttributeValue in documentSetAttributeValues)
+                                {
+                                    nodeSetAttribute.Attributes.Add(new ObjectImporter.Attribute()
+                                    {
+                                        Name = documentSetAttributeName,
+                                        Value = documentSetAttributeValue
+                                    });
+                                }
+                            }
+                        }
+                        nodeCategory.SetAttribute = nodeSetAttribute;
+                    }
+                }
+                nodeCategories.Add(nodeCategory);
+            }
+            return nodeCategories;
+        }
+    }
+}
