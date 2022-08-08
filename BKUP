@@ -1,0 +1,422 @@
+WEBREPORT TAGS===========>
+
+=>CAT:<catname>:<attname>:DISPLAY :- [LL_REPTAG=DATAID CAT:<catname>:<attname>:DISPLAY /]
+ 
+131708
+CatID 	 CatName 	 SetName 	 AttrName 	 RegionName 	 AttrType 
+ 131708 	 MIGRATED DOCUMENT INFO 	 ? 	 Source System 	 Attr_131708_2 	 10 
+ 131708 	 MIGRATED DOCUMENT INFO 	 ? 	 Legacy Author 	 Attr_131708_6 	 -1 
+ 131708 	 MIGRATED DOCUMENT INFO 	 ? 	 Legacy Document Number 	 Attr_131708_3 	 -1 
+ 131708 	 MIGRATED DOCUMENT INFO 	 ? 	 Phase 	 Attr_131708_7 	 -1 
+ 131708 	 MIGRATED DOCUMENT INFO 	 ? 	 Comments 	 Attr_131708_4 	 -1 
+
+MIGRATED------->>>
+
+select distinct c.dataid,c.name,ac.valstr as Source_System,ab.valstr as Legacy_Author,a.valstr as Legacy_Document_Number
+,ad.valstr as Phase,ae.valstr as Comments
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+	inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+
+		inner join llattrdata ab on a.id=ab.id and ab.defid=b.catid 
+		inner join llattrdata ac on a.id=ac.id and ac.defid=b.catid
+		inner join llattrdata ad on a.id=ad.id and ad.defid=b.catid
+		inner join llattrdata ae on a.id=ae.id and ae.defid=b.catid
+
+
+								
+	where ac.AttrType=10 and ac.attrid=2 and a.AttrType=-1 and a.attrid=3 and ab.attrType=-1 and ab.attrid=6 and 
+	 ad.AttrType=-1 and ad.AttrID=7 and 
+	ae.AttrType=-1 and ae.attrid=4 and b.CatID=131708
+					  
+	and c.subtype=144  and c.parentid in 
+	(select d.dataid from dtree d where d.subtype in('0','136') 
+   	and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+  	and b.CatName in('MIGRATED DOCUMENT INFO') 
+	order by c.dataid,c.name 
+
+GXP----------->>>
+select distinct c.dataid,c.name,a.valstr as Validation_Type,gb.valstr as Validation_Type_Code,gc.valstr as Department_Name,gd.valstr as Department_Code,
+ge.valstr as Document_Type, gf.valstr as Document_Type_Code,gg.valstr as Application_Name,gh.valstr as Release_Number,gi.valstr as Equipment_Name, gj.valstr as Product_Name,
+gk.valstr as Process_Name, gl.valstr as EquipmentProductProcess_Version, gm.valstr as Document_Number,gn.valstr as Document_Title, go.valstr as Document_Author,gp.valstr as Document_Status,
+gq.valdate as Approved_Date,gr.valstr as Site_LocationCreation, gs.valstr as Impacted_Scope, gt.valstr as Impacted_Sites,gu.valstr as Impacted_Functional_Organization,
+gv.valstr as Owner_Sub_Function_Name, gw.valstr as Document_Version_Number, gx.valstr as GMP_Controlled_Document,gy.valstr as Impacted_Sub_Functional_Groups,gz.valstr as CR_Number
+
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+	inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+
+                                inner join llattrdata gb on a.id=gb.id and gb.defid=b.catid
+                                inner join llattrdata gc on a.id=gc.id and gc.defid=b.catid
+                                inner join llattrdata gd on a.id=gd.id and gd.defid=b.catid
+                                inner join llattrdata ge on a.id=ge.id and ge.defid=b.catid 
+                                inner join llattrdata gf on a.id=gf.id and gf.defid=b.catid
+                                inner join llattrdata gg on a.id=gg.id and gg.defid=b.catid
+                                inner join llattrdata gh on a.id=gh.id and gh.defid=b.catid
+                                inner join llattrdata gi on a.id=gi.id and gi.defid=b.catid 
+                                inner join llattrdata gj on a.id=gj.id and gj.defid=b.catid
+                                inner join llattrdata gk on a.id=gk.id and gk.defid=b.catid
+                                inner join llattrdata gl on a.id=gl.id and gl.defid=b.catid
+                                inner join llattrdata gm on a.id=gm.id and gm.defid=b.catid 
+                                inner join llattrdata gn on a.id=gn.id and gn.defid=b.catid
+                                inner join llattrdata go on a.id=go.id and go.defid=b.catid
+                                inner join llattrdata gp on a.id=gp.id and gp.defid=b.catid
+                                inner join llattrdata gq on a.id=gq.id and gq.defid=b.catid 
+                                inner join llattrdata gr on a.id=gr.id and gr.defid=b.catid
+                                inner join llattrdata gs on a.id=gs.id and gs.defid=b.catid
+                                inner join llattrdata gt on a.id=gt.id and gt.defid=b.catid
+                                inner join llattrdata gu on a.id=gu.id and gu.defid=b.catid
+                                inner join llattrdata gv on a.id=gv.id and gv.defid=b.catid
+                                inner join llattrdata gw on a.id=gw.id and gw.defid=b.catid 
+                                inner join llattrdata gx on a.id=gx.id and gx.defid=b.catid
+                                inner join llattrdata gy on a.id=gy.id and gy.defid=b.catid
+                                inner join llattrdata gz on a.id=gz.id and gz.defid=b.catid
+
+								
+where a.AttrType=10130 and a.attrid=2  and gb.AttrType=10130 and gb.attrid=3  and gc.AttrType=10130 and gc.attrid=4  and gd.AttrType=10130 and gd.attrid=5  and ge.AttrType=10130 and
+ ge.attrid=6  and gf.AttrType=10130 and gf.attrid=7  and gg.AttrType=10130 and gg.attrid=8  and gh.AttrType=-1 and gh.attrid=9  and gi.AttrType=10130 and gi.attrid=10  and
+ gj.AttrType=10130 and gj.attrid=11 and gk.AttrType=10130 and gk.attrid=12  and gl.AttrType=-1 and gl.attrid=13  and gm.AttrType=10131 and gm.attrid=14  and gn.AttrType=-1 and
+ gn.attrid=15  and go.AttrType=14 and go.attrid=16  and gp.AttrType=10 and gp.attrid=17  and gq.AttrType=-7 and gq.attrid=18  and gr.AttrType=10130 and gr.attrid=19  and
+ gs.AttrType=10130 and gs.attrid=20  and gt.AttrType=10130 and gt.attrid=21  and gu.AttrType=10130 and gu.attrid=22  and gv.AttrType=10130 and gv.attrid=23  and gw.AttrType=2 and
+ gw.attrid=24  and gx.AttrType=10 and gx.attrid=25 and gy.AttrType=10130 and gy.attrid=27  and gz.AttrType=-1 and gz.attrid=28 and b.CatID=25006471
+					  
+	and c.subtype=144  and c.parentid in 
+	(select d.dataid from dtree d where d.subtype in('0','136') 
+   	and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+  	and b.CatName in('GxP Validation Document') 
+	and gm.valstr in ('PRDT-R&D-PPQR-1-00002')
+	order by c.dataid,c.name 
+
+
+WORKFLOW------>>>
+select distinct c.dataid,c.name,a.valint as Document_Workflow_details_Name,db.valstr as Document_Workflow_details_Role,dc.valdate as Document_Workflow_details_Date,dd.valdate as Document_Workflow_details_Disposition_value
+
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+	inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1) 
+                                inner join llattrdata db on a.id=db.id and db.defid=b.catid
+                                inner join llattrdata dc on a.id=dc.id and dc.defid=b.catid
+                                inner join llattrdata dd on a.id=dd.id and dd.defid=b.catid
+
+
+
+								
+	a.AttrType=14 and a.attrid=14  and db.AttrType=-1 and db.attrid=15  and dc.AttrType=-1 and dc.attrid=17  and dd.AttrType=-7 and dd.attrid=18  and 
+ b.CatID=131668
+					  
+	and c.subtype=144  and c.parentid in 
+	(select d.dataid from dtree d where d.subtype in('0','136') 
+   	and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+  	and b.CatName in('DOCUMENT WORKFLOW DETAILS') 
+	order by c.dataid,c.name 
+
+
+-------------------------------------------------------------------------
+select distinct c.dataid,c.name,a.valstr as Validation_Type,gb.valstr as Validation_Type_Code,gc.valstr as Department_Name,gd.valstr as Department_Code,
+ge.valstr as Document_Type, gf.valstr as Document_Type_Code,gg.valstr as Application_Name,gh.valstr as Release_Number,gi.valstr as Equipment_Name, gj.valstr as Product_Name,
+gk.valstr as Process_Name, gl.valstr as EquipmentProductProcess_Version, gm.valstr as Document_Number,gn.valstr as Document_Title, go.valstr as Document_Author,gp.valstr as Document_Status,
+gq.valdate as Approved_Date,gr.valstr as Site_LocationCreation, gs.valstr as Impacted_Scope, gt.valstr as Impacted_Sites,gu.valstr as Impacted_Functional_Organization,
+gv.valstr as Owner_Sub_Function_Name, gw.valstr as Document_Version_Number, gx.valstr as GMP_Controlled_Document,gy.valstr as Impacted_Sub_Functional_Groups,gz.valstr as CR_Number
+,ac.valstr as Source_System,ab.valstr as Legacy_Author,aa.valstr as Legacy_Document_Number
+,ad.valstr as Phase,ae.valstr as Comments
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+                inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+                                inner join llattrdata gb on a.id=gb.id and gb.defid=b.catid
+                                inner join llattrdata gc on a.id=gc.id and gc.defid=b.catid
+                                inner join llattrdata gd on a.id=gd.id and gd.defid=b.catid
+                                inner join llattrdata ge on a.id=ge.id and ge.defid=b.catid 
+                                inner join llattrdata gf on a.id=gf.id and gf.defid=b.catid
+                                inner join llattrdata gg on a.id=gg.id and gg.defid=b.catid
+                                inner join llattrdata gh on a.id=gh.id and gh.defid=b.catid
+                                inner join llattrdata gi on a.id=gi.id and gi.defid=b.catid 
+                                inner join llattrdata gj on a.id=gj.id and gj.defid=b.catid
+                                inner join llattrdata gk on a.id=gk.id and gk.defid=b.catid
+                                inner join llattrdata gl on a.id=gl.id and gl.defid=b.catid
+                                inner join llattrdata gm on a.id=gm.id and gm.defid=b.catid 
+                                inner join llattrdata gn on a.id=gn.id and gn.defid=b.catid
+                                inner join llattrdata go on a.id=go.id and go.defid=b.catid
+                                inner join llattrdata gp on a.id=gp.id and gp.defid=b.catid
+                                inner join llattrdata gq on a.id=gq.id and gq.defid=b.catid 
+                                inner join llattrdata gr on a.id=gr.id and gr.defid=b.catid
+                                inner join llattrdata gs on a.id=gs.id and gs.defid=b.catid
+                                inner join llattrdata gt on a.id=gt.id and gt.defid=b.catid
+                                inner join llattrdata gu on a.id=gu.id and gu.defid=b.catid
+                                inner join llattrdata gv on a.id=gv.id and gv.defid=b.catid
+                                inner join llattrdata gw on a.id=gw.id and gw.defid=b.catid 
+                                inner join llattrdata gx on a.id=gx.id and gx.defid=b.catid
+                                inner join llattrdata gy on a.id=gy.id and gy.defid=b.catid
+                                inner join llattrdata gz on a.id=gz.id and gz.defid=b.catid
+
+
+				inner join llattrdata aa on a.id=aa.id and aa.defid=b.catid 
+				inner join llattrdata ab on a.id=ab.id and ab.defid=b.catid 
+				inner join llattrdata ac on a.id=ac.id and ac.defid=b.catid
+				inner join llattrdata ad on a.id=ad.id and ad.defid=b.catid
+				inner join llattrdata ae on a.id=ae.id and ae.defid=b.catid
+	
+
+where a.AttrType=10130 and a.attrid=2  and gb.AttrType=10130 and gb.attrid=3  and gc.AttrType=10130 and gc.attrid=4  and gd.AttrType=10130 and gd.attrid=5  and ge.AttrType=10130 and
+ ge.attrid=6  and gf.AttrType=10130 and gf.attrid=7  and gg.AttrType=10130 and gg.attrid=8  and gh.AttrType=-1 and gh.attrid=9  and gi.AttrType=10130 and gi.attrid=10  and
+ gj.AttrType=10130 and gj.attrid=11 and gk.AttrType=10130 and gk.attrid=12  and gl.AttrType=-1 and gl.attrid=13  and gm.AttrType=10131 and gm.attrid=14  and gn.AttrType=-1 and
+ gn.attrid=15  and go.AttrType=14 and go.attrid=16  and gp.AttrType=10 and gp.attrid=17  and gq.AttrType=-7 and gq.attrid=18  and gr.AttrType=10130 and gr.attrid=19  and
+ gs.AttrType=10130 and gs.attrid=20  and gt.AttrType=10130 and gt.attrid=21  and gu.AttrType=10130 and gu.attrid=22  and gv.AttrType=10130 and gv.attrid=23  and gw.AttrType=2 and
+ gw.attrid=24  and gx.AttrType=10 and gx.attrid=25 and gy.AttrType=10130 and gy.attrid=27  and gz.AttrType=-1 and gz.attrid=28  and 
+ ac.AttrType=10 and ac.attrid=2 and a.AttrType=-1 and a.attrid=3 and ab.attrType=-1 and ab.attrid=6 and 
+	 ad.AttrType=-1 and ad.AttrID=7 and 
+	ae.AttrType=-1 and ae.attrid=4
+
+
+		and b.CatID in (25006471,131708)                                                                
+                and c.subtype=144  and c.parentid in 
+                (select d.dataid from dtree d where d.subtype in('0','136') 
+   	and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+                and b.CatName in('GxP Validation Document','MIGRATED DOCUMENT INFO') 
+                order by c.dataid,c.name 
+------------------------------------------------------------------------------------------------------------------
+
+select distinct c.dataid,c.name,ga.valstr as Validation_Type,gb.valstr as Validation_Type_Code,gc.valstr as Department_Name,gd.valstr as Department_Code,
+ge.valstr as Document_Type, gf.valstr as Document_Type_Code,gg.valstr as Application_Name,gh.valstr as Release_Number,gi.valstr as Equipment_Name, gj.valstr as Product_Name,
+gk.valstr as Process_Name, gl.valstr as Equipment/Product/Process_Version, gm.valstr as Document_Number,gn.valstr as Document_Title, go.valstr as Document_Author,gp.valstr as Document_Status,
+gq.valdate as Approved_Date,gr.valstr as Site_Location-Creation, gs.valstr as Impacted_Scope, gt.valstr as Impacted_Sites,gu.valstr as Impacted_Functional_Organization,
+gv.valstr as Owner_Sub_Function_Name, gw.valstr as Document_Version_Number, gx.valstr as GMP_Controlled_Document,gy.valstr as Impacted_Sub_Functional_Groups,gz.valstr as CR_Number,
+da.valstr as Document_Workflow_details_Name,db.valstr as Document_Workflow_details_Role,dc.valdate as Document_Workflow_details_Date,dd.valdate as Document_Workflow_details_Disposition_value,
+,a.valstr as Legacy_Document_Number,ab.valstr as Legacy_Author,ac.valstr as Source_System,ad.valstr as Phase,ae.valstr as Comments
+from  LLAttrData a inner join dtree c on a.id=c.dataid  and a.VerNum=c.VersionNum 
+                              
+                inner join CatRegionMap b on a.DefID = b.CatID and a.AttrID= right(b.regionname,1)
+                                inner join llattrdata ga on a.id=ga.id and ga.defid=b.catid 
+                                inner join llattrdata gb on a.id=gb.id and gb.defid=b.catid
+                                inner join llattrdata gc on a.id=gc.id and gc.defid=b.catid
+                                inner join llattrdata gd on a.id=gd.id and gd.defid=b.catid
+                                inner join llattrdata ge on a.id=ge.id and ge.defid=b.catid 
+                                inner join llattrdata gf on a.id=gf.id and gf.defid=b.catid
+                                inner join llattrdata gg on a.id=gg.id and gg.defid=b.catid
+                                inner join llattrdata gh on a.id=gh.id and gh.defid=b.catid
+                                inner join llattrdata gi on a.id=gi.id and gi.defid=b.catid 
+                                inner join llattrdata gj on a.id=gj.id and gj.defid=b.catid
+                                inner join llattrdata gk on a.id=gk.id and gk.defid=b.catid
+                                inner join llattrdata gl on a.id=gl.id and gl.defid=b.catid
+                                inner join llattrdata gm on a.id=gm.id and gm.defid=b.catid 
+                                inner join llattrdata gn on a.id=gn.id and gn.defid=b.catid
+                                inner join llattrdata go on a.id=go.id and go.defid=b.catid
+                                inner join llattrdata gp on a.id=gp.id and gp.defid=b.catid
+                                inner join llattrdata gq on a.id=gq.id and gq.defid=b.catid 
+                                inner join llattrdata gr on a.id=gr.id and gr.defid=b.catid
+                                inner join llattrdata gs on a.id=gs.id and gs.defid=b.catid
+                                inner join llattrdata gt on a.id=gt.id and gt.defid=b.catid
+                                inner join llattrdata gu on a.id=gu.id and gu.defid=b.catid
+                                inner join llattrdata gv on a.id=gv.id and gv.defid=b.catid
+                                inner join llattrdata gw on a.id=gw.id and gw.defid=b.catid 
+                                inner join llattrdata gx on a.id=gx.id and gx.defid=b.catid
+                                inner join llattrdata gy on a.id=gy.id and gy.defid=b.catid
+                                inner join llattrdata gz on a.id=gz.id and gz.defid=b.catid
+
+                                inner join llattrdata da on a.id=da.id and da.defid=b.catid 
+                                inner join llattrdata db on a.id=db.id and db.defid=b.catid
+                                inner join llattrdata dc on a.id=dc.id and dc.defid=b.catid
+                                inner join llattrdata dd on a.id=dd.id and dd.defid=b.catid
+
+                                inner join llattrdata ab on a.id=ab.id and ab.defid=b.catid 
+                                inner join llattrdata ac on a.id=ac.id and ac.defid=b.catid
+                                inner join llattrdata ad on a.id=ad.id and ad.defid=b.catid
+                                inner join llattrdata ae on a.id=ae.id and ae.defid=b.catid 
+	
+
+where ga.AttrType=10130 and ga.attrid=2  and gb.AttrType=10130 and gb.attrid=3  and gc.AttrType=10130 and gc.attrid=4  and gd.AttrType=10130 and gd.attrid=5  and ge.AttrType=10130 and
+ ge.attrid=6  and gf.AttrType=10130 and gf.attrid=7  and gg.AttrType=10130 and gg.attrid=8  and gh.AttrType=-1 and gh.attrid=9  and gi.AttrType=10130 and gi.attrid=10  and
+ gj.AttrType=10130 and gj.attrid=11 and gk.AttrType=10130 and gk.attrid=12  and gl.AttrType=-1 and gl.attrid=13  and gm.AttrType=10131 and gm.attrid=14  and gn.AttrType=-1 and
+ gn.attrid=15  and go.AttrType=14 and go.attrid=16  and gp.AttrType=10 and gp.attrid=17  and gq.AttrType=-7 and gq.attrid=18  and gr.AttrType=10130 and gr.attrid=19  and
+ gs.AttrType=10130 and gs.attrid=20  and gt.AttrType=10130 and gt.attrid=21  and gu.AttrType=10130 and gu.attrid=22  and gv.AttrType=10130 and gv.attrid=23  and gw.AttrType=2 and
+ gw.attrid=24  and gx.AttrType=10 and gx.attrid=25 and gy.AttrType=10130 and gy.attrid=27  and gz.AttrType=-1 and gz.attrid=28  and 
+
+
+da.AttrType=14 and da.attrid=14  and db.AttrType=-1 and db.attrid=15  and dc.AttrType=-1 and dc.attrid=17  and dd.AttrType=-7 and dd.attrid=18  and 
+
+a.AttrType=10 and a.attrid=2  and ab.attrType=-1 and ab.attrid=6 and ac.AttrType=-1 and ac.attrid=3 and ad.AttrType=-1 and ad.AttrID=7 and ae.AttrType=-1 and ae.attrid=4 
+
+
+		and b.CatID in (25006471,131668,131708)                                                                
+                and c.subtype=144  and c.parentid in 
+                (select d.dataid from dtree d where d.subtype in('0','136') 
+                and d.dataid=c.ParentID) and c.ExAtt1 is NULL
+                and b.CatName in('GxP Validation Document','DOCUMENT WORKFLOW DETAILS','MIGRATED DOCUMENT INFO') 
+                order by c.dataid,c.name 
+
+
+-------------------------------------------------------------------------
+
+
+select dt.dataid, dt.name,l1.valstr 'Source system', l2.valstr 'Legacy Document Number',
+ l3.ValStr 'Comments', l4.ValStr as 'Legacy Author'
+,l5.valstr 'Document Title'
+from dtree dt join LLAttrData l1 on dt.dataid=l1.id
+join LLAttrData l2 on dt.dataid=l2.id join LLAttrData l3 on dt.dataid=l3.id join LLAttrData l4 on dt.dataid=l4.id 
+join LLAttrData l5 on dt.dataid=l5.id
+join DTreeAncestors da on dt.dataid=da.dataid
+where dt.name in ('CSV-IT-FRS-2-0001')
+--and dt.ParentID in (select dataid from dtree where name = 'OpenText')
+and l1.defid=131708 and l1.attrid=2 and l1.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and l1.VerNum = dt.VersionNum
+and l2.defid=131708 and l2.attrid=3 and l2.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and l2.VerNum = dt.VersionNum
+and l3.defid=131708 and l3.attrid=4 and l3.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and l3.VerNum = dt.VersionNum
+and l4.defid=131708 and l4.attrid=6 and l4.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and l4.VerNum = dt.VersionNum
+and l5.defid=25006471 and l5.attrid=15 and l5.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and 
+l5.VerNum = dt.VersionNum
+and da.AncestorID=25037237 and dt.subtype=144
+
+-----------------------------------------------------------------------------
+select dt.dataid as DataID, dt.name as Name,dt.createdate as CreateDate, ga.valstr as Validation_Type,gb.valstr as Validation_Type_Code,gc.valstr as Department_Name,gd.valstr as Department_Code,
+ge.valstr as Document_Type, gf.valstr as Document_Type_Code,ISNULL(gg.valstr,'NULL') as Application_Name,ISNULL(gh.valstr,'NULL') as Release_Number,ISNULL(gi.valstr,'NULL') as Equipment_Name, ISNULL(gj.valstr,'NULL') as Product_Name,
+ISNULL(gk.valstr,'NULL') as Process_Name, ISNULL(gl.valstr,'NULL') as EquipmentProductProcess_Version, ISNULL(gm.valstr,'NULL') as Document_Number,ISNULL(gn.valstr,'NULL') as Document_Title, ISNULL(go.valstr,'NULL') as Document_Author,ISNULL(gp.valstr,'NULL') as Document_Status,
+ISNULL(gq.valdate,'NULL') as Approved_Date,ISNULL(gr.valstr,'NULL') as Site_LocationCreation, ISNULL(gs.valstr,'NULL') as Impacted_Scope, ISNULL(gt.valstr,'NULL') as Impacted_Sites,ISNULL(gu.valstr,'NULL') as Impacted_Functional_Organization,
+ISNULL(gv.valstr,'NULL') as Owner_Sub_Function_Name, ISNULL(gw.valstr,'NULL') as Document_Version_Number, ISNULL(gx.valstr,'NULL') as GMP_Controlled_Document,ISNULL(gy.valstr,'NULL') as Impacted_Sub_Functional_Groups,ISNULL(gz.valstr,'NULL') as CR_Number
+,ISNULL(aa.valstr,'NULL') as Source_System,ISNULL(ab.valstr,'NULL') as Legacy_Author,ISNULL(ac.valstr,'NULL') as Legacy_Document_Number
+,ISNULL(ad.valstr,'NULL') as Phase,ISNULL(ae.valstr,'NULL') as Comments
+from dtree dt 
+join LLAttrData ga on dt.dataid=ga.id
+join LLAttrData gb on dt.dataid=gb.id
+join LLAttrData gc on dt.dataid=gc.id
+join LLAttrData gd on dt.dataid=gd.id
+join LLAttrData ge on dt.dataid=ge.id
+join LLAttrData gf on dt.dataid=gf.id
+join LLAttrData gg on dt.dataid=gg.id
+join LLAttrData gh on dt.dataid=gh.id
+join LLAttrData gi on dt.dataid=gi.id
+join LLAttrData gj on dt.dataid=gj.id
+join LLAttrData gk on dt.dataid=gk.id
+join LLAttrData gl on dt.dataid=gl.id
+join LLAttrData gm on dt.dataid=gm.id
+join LLAttrData gn on dt.dataid=gn.id
+join LLAttrData go on dt.dataid=go.id
+join LLAttrData gp on dt.dataid=gp.id
+join LLAttrData gq on dt.dataid=gq.id
+join LLAttrData gr on dt.dataid=gr.id
+join LLAttrData gs on dt.dataid=gs.id
+join LLAttrData gt on dt.dataid=gt.id
+join LLAttrData gu on dt.dataid=gu.id
+join LLAttrData gv on dt.dataid=gv.id
+join LLAttrData gw on dt.dataid=gw.id
+join LLAttrData gx on dt.dataid=gx.id
+join LLAttrData gy on dt.dataid=gy.id
+join LLAttrData gz on dt.dataid=gz.id
+
+join LLAttrData aa on dt.dataid=aa.id
+join LLAttrData ab on dt.dataid=ab.id
+join LLAttrData ac on dt.dataid=ac.id
+join LLAttrData ad on dt.dataid=ad.id
+join LLAttrData ae on dt.dataid=ae.id
+
+join DTreeAncestors da on dt.dataid=da.dataid
+where dt.name in ('CSV-IT-FRS-2-0001')
+and ga.defid=25006471 and ga.attrid=2 and ga.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and ga.VerNum = dt.VersionNum
+and gb.defid=25006471 and gb.attrid=3 and gb.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gb.VerNum = dt.VersionNum
+and gc.defid=25006471 and gc.attrid=4 and gc.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gc.VerNum = dt.VersionNum
+and gd.defid=25006471 and gd.attrid=5 and gd.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gd.VerNum = dt.VersionNum
+and ge.defid=25006471 and ge.attrid=6 and ge.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and ge.VerNum = dt.VersionNum
+and gf.defid=25006471 and gf.attrid=7 and gf.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gf.VerNum = dt.VersionNum
+and gg.defid=25006471 and gg.attrid=8 and gg.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gg.VerNum = dt.VersionNum
+and gh.defid=25006471 and gh.attrid=9 and gh.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gh.VerNum = dt.VersionNum
+and gi.defid=25006471 and gi.attrid=10 and gi.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gi.VerNum = dt.VersionNum
+and gj.defid=25006471 and gj.attrid=11 and gj.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gj.VerNum = dt.VersionNum
+and gk.defid=25006471 and gk.attrid=12 and gk.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gk.VerNum = dt.VersionNum
+and gl.defid=25006471 and gl.attrid=13 and gl.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gl.VerNum = dt.VersionNum
+and gm.defid=25006471 and gm.attrid=14 and gm.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gm.VerNum = dt.VersionNum
+and gn.defid=25006471 and gn.attrid=15 and gn.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gn.VerNum = dt.VersionNum
+and go.defid=25006471 and go.attrid=16 and go.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and go.VerNum = dt.VersionNum
+and gp.defid=25006471 and gp.attrid=17 and gp.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gp.VerNum = dt.VersionNum
+and gq.defid=25006471 and gq.attrid=18 and gq.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gq.VerNum = dt.VersionNum
+and gr.defid=25006471 and gr.attrid=19 and gr.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gr.VerNum = dt.VersionNum
+and gs.defid=25006471 and gs.attrid=20 and gs.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gs.VerNum = dt.VersionNum
+and gt.defid=25006471 and gt.attrid=21 and gt.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gt.VerNum = dt.VersionNum
+and gu.defid=25006471 and gu.attrid=22 and gu.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gu.VerNum = dt.VersionNum
+and gv.defid=25006471 and gv.attrid=23 and gv.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gv.VerNum = dt.VersionNum
+and gw.defid=25006471 and gw.attrid=24 and gw.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gw.VerNum = dt.VersionNum
+and gx.defid=25006471 and gx.attrid=25 and gx.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gx.VerNum = dt.VersionNum
+and gy.defid=25006471 and gy.attrid=27 and gy.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gy.VerNum = dt.VersionNum
+and gz.defid=25006471 and gz.attrid=28 and gz.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gz.VerNum = dt.VersionNum
+
+
+and aa.defid=131708 and aa.attrid=2 and aa.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and aa.VerNum = dt.VersionNum
+and ab.defid=131708 and ab.attrid=6 and ab.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ab.VerNum = dt.VersionNum
+and ac.defid=131708 and ac.attrid=3 and ac.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ac.VerNum = dt.VersionNum
+and ad.defid=131708 and ad.attrid=7 and ad.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ad.VerNum = dt.VersionNum
+and ae.defid=131708 and ae.attrid=4 and ae.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ae.VerNum = dt.VersionNum
+and da.AncestorID=25037237 and dt.subtype=144
+----------------------
+--Update ancestor id cat id cat attrib id as per environment
+
+select dt.dataid as DataID,ISNULL(gn.valstr,'') as Source_Filename ,dt.name as Destination_Filename, ga.valstr as Validation_Type,gb.valstr as Validation_Type_Code,gc.valstr as Department_Name,gd.valstr as Department_Code,
+ge.valstr as Document_Type, gf.valstr as Document_Type_Code, ISNULL(gw.valint,'') as Document_Version_Number,dt.createdate as CreateDate, ISNULL(gg.valstr,'') as Application_Name,ISNULL(gh.valstr,'') as Release_Number,ISNULL(gi.valstr,'') as Equipment_Name,ISNULL(gj.valstr,'') as Product_Name,
+ISNULL(gk.valstr,'') as Process_Name,ISNULL(gl.valstr,'') as EquipmentProductProcess_Version, ISNULL(gm.valstr,'') as Document_Number, ISNULL(go.valstr,'') as Document_Author,ISNULL(gp.valstr,'') as Document_Status,
+coalesce( convert( varchar(10), gq.valdate, 103 ), '') as Approved_Date,ISNULL(gr.valstr,'') as Site_LocationCreation, ISNULL(gs.valstr,'') as Impacted_Scope, ISNULL(gt.valstr,'') as Impacted_Sites,ISNULL(gu.valstr,'') as Impacted_Functional_Organization,
+ISNULL(gv.valstr,'') as Owner_Sub_Function_Name,ISNULL(gx.valstr,'') as GMP_Controlled_Document,ISNULL(gy.valstr,'') as Impacted_Sub_Functional_Groups,ISNULL(gz.valstr,'') as CR_Number
+,ISNULL(aa.valstr,'') as Source_System,ISNULL(ab.valstr,'') as Legacy_Author,ISNULL(ac.valstr,'') as Legacy_Document_Number
+,ISNULL(ae.valstr,'') as Comments
+from dtree dt 
+join LLAttrData ga on dt.dataid=ga.id
+join LLAttrData gb on dt.dataid=gb.id
+join LLAttrData gc on dt.dataid=gc.id
+join LLAttrData gd on dt.dataid=gd.id
+join LLAttrData ge on dt.dataid=ge.id
+join LLAttrData gf on dt.dataid=gf.id
+join LLAttrData gg on dt.dataid=gg.id
+join LLAttrData gh on dt.dataid=gh.id
+join LLAttrData gi on dt.dataid=gi.id
+join LLAttrData gj on dt.dataid=gj.id
+join LLAttrData gk on dt.dataid=gk.id
+join LLAttrData gl on dt.dataid=gl.id
+join LLAttrData gm on dt.dataid=gm.id
+join LLAttrData gn on dt.dataid=gn.id
+join LLAttrData go on dt.dataid=go.id
+join LLAttrData gp on dt.dataid=gp.id
+join LLAttrData gq on dt.dataid=gq.id
+join LLAttrData gr on dt.dataid=gr.id
+join LLAttrData gs on dt.dataid=gs.id
+join LLAttrData gt on dt.dataid=gt.id
+join LLAttrData gu on dt.dataid=gu.id
+join LLAttrData gv on dt.dataid=gv.id
+join LLAttrData gw on dt.dataid=gw.id
+join LLAttrData gx on dt.dataid=gx.id
+join LLAttrData gy on dt.dataid=gy.id
+join LLAttrData gz on dt.dataid=gz.id
+
+join LLAttrData aa on dt.dataid=aa.id
+join LLAttrData ab on dt.dataid=ab.id
+join LLAttrData ac on dt.dataid=ac.id
+join LLAttrData ae on dt.dataid=ae.id
+
+join DTreeAncestors da on dt.dataid=da.dataid 
+where dt.name in ('EQP-GSC-QCL-1-000003','EQP-GSC-SRS-1-000005','CSV-IT-RA-1-000001','CSV-IT-VSR-1-000001','CSV-IT-PQ-1-000001','CSV-IT-PQ-1-000002','EQP-GSC-URS-3-000001','EQP-GSC-IOPQP-1-000001','EQP-GSC-IOQP-1-000001','EQP-GSC-IA-1-000001','EQP-GSC-RA-1-000001','EQP-GSC-SRS-1-000001','EQP-GSC-QCL-1-000001','EQP-GSC-IA-1-000002','EQP-GSC-SRS-1-000002','EQP-GSC-IA-2-000001','EQP-GSC-SRS-1-000003','EQP-GSC-IA-1-000003','EQP-GSC-QCL-1-000002','EQP-GSC-SRS-1-000004','EQP-GSC-IA-1-000004','EQP-GSC-URS-2-000001','EQP-GSC-IOPQR-1-000001','EQP-GSC-IA-1-000001','EQP-GSC-RA-1-000001','EQP-GSC-IOQP-1-000001','EQP-GSC-URS-1-000001','EQP-GSC-IA-1-000002','EQP-GSC-IOQP-1-000002','EQP-GSC-SRS-1-000001','EQP-GSC-IOQR-1-000001','EQP-GSC-URS-1-000002','EQP-GSC-QCL-1-000001','EQP-GSC-URS-1-000003','EQP-GSC-IA-1-000003','EQP-GSC-PQP-1-000001','EQP-GSC-RA-2-000001','EQP-GSC-PRO-1-000001','EQP-GSC-IA-1-000005','EQP-GSC-IOQP-1-000003','EQP-GSC-SRS-1-000005','EQP-GSC-IA-1-000005','EQP-GSC-QCL-1-000004','EQP-GSC-SRS-1-000006','EQP-GSC-QCL-1-000005','EQP-GSC-IA-1-000006','EQP-GSC-URS-1-000001','EQP-GSC-RA-1-000002','PRCS-GSC-VP-1-000001','PRCS-GSC-PPQP-1-000001','PRCS-GSC-PPQR-1-000001','PRCS-GSC-VP-1-000002','PRCS-GSC-PPQP-3-000001','PRCS-GSC-PPQR-1-000002','PRCS-GSC-ADD-1-000001','PRCS-GSC-PPQP-0-000001','PRCS-GSC-PPQR-0-000002','PRCS-GSC-ADD-1-000002','PRCS-GSC-PPQP-1-000002','PRCS-GSC-PPQR-1-000003','PRCS-GSC-VP-1-000003','PRCS-GSC-PPQP-1-000003','PRCS-GSC-PPQR-1-000004','PRCS-GSC-VP-1-000004','PRCS-GSC-PPQP-1-000004','PRCS-GSC-PPQR-1-000005','PRCS-GSC-VP-1-000005','CLNG-GSC-CVP-1-000001','CLNG-GSC-CVR-1-000001','CLNG-GSC-CVP-1-000002','CLNG-GSC-CVR-1-000002','CLNG-GSC-CVP-1-000003','CLNG-GSC-CVR-1-000003','CLNG-GSC-CVP-1-000004','CLNG-GSC-CVR-1-000004','CLNG-GSC-CVP-1-000005','CLNG-GSC-CVR-1-000005','CLNG-GSC-CVP-1-000006','CLNG-GSC-CVR-1-000006','EQP-GSC-URS-1-000004','EQP-GSC-IA-1-000006','EQP-GSC-IOQP-1-000004','EQP-GSC-RA-1-000002','EQP-GSC-PQP-1-000002','EQP-GSC-URS-3-000001','EQP-GSC-VPR-1-000001','EQP-GSC-DQ-1-000001','EQP-GSC-IA-1-000007','EQP-GSC-RA-1-000003','EQP-GSC-IOQP-2-000001','EQP-GSC-URS-1-000005','EQP-GSC-IOQR-1-000002','EQP-GSC-RA-1-000004','EQP-GSC-DQ-1-000002','EQP-GSC-DQ-1-000003','EQP-GSC-IOQR-1-000003','EQP-GSC-URS-1-000006','EQP-GSC-IOQP-1-000005','EQP-GSC-RA-2-000002','EQP-GSC-IA-1-000008')
+and ga.defid=25006471 and ga.attrid=2 and ga.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and ga.VerNum = dt.VersionNum
+and gb.defid=25006471 and gb.attrid=3 and gb.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gb.VerNum = dt.VersionNum
+and gc.defid=25006471 and gc.attrid=4 and gc.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gc.VerNum = dt.VersionNum
+and gd.defid=25006471 and gd.attrid=5 and gd.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gd.VerNum = dt.VersionNum
+and ge.defid=25006471 and ge.attrid=6 and ge.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and ge.VerNum = dt.VersionNum
+and gf.defid=25006471 and gf.attrid=7 and gf.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gf.VerNum = dt.VersionNum
+and gg.defid=25006471 and gg.attrid=8 and gg.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gg.VerNum = dt.VersionNum
+and gh.defid=25006471 and gh.attrid=9 and gh.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gh.VerNum = dt.VersionNum
+and gi.defid=25006471 and gi.attrid=10 and gi.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gi.VerNum = dt.VersionNum
+and gj.defid=25006471 and gj.attrid=11 and gj.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gj.VerNum = dt.VersionNum
+and gk.defid=25006471 and gk.attrid=12 and gk.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gk.VerNum = dt.VersionNum
+and gl.defid=25006471 and gl.attrid=13 and gl.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gl.VerNum = dt.VersionNum
+and gm.defid=25006471 and gm.attrid=14 and gm.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gm.VerNum = dt.VersionNum
+and gn.defid=25006471 and gn.attrid=15 and gn.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gn.VerNum = dt.VersionNum
+and go.defid=25006471 and go.attrid=16 and go.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and go.VerNum = dt.VersionNum
+and gp.defid=25006471 and gp.attrid=17 and gp.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gp.VerNum = dt.VersionNum
+and gq.defid=25006471 and gq.attrid=18 and gq.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gq.VerNum = dt.VersionNum
+and gr.defid=25006471 and gr.attrid=19 and gr.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gr.VerNum = dt.VersionNum
+and gs.defid=25006471 and gs.attrid=20 and gs.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gs.VerNum = dt.VersionNum
+and gt.defid=25006471 and gt.attrid=21 and gt.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gt.VerNum = dt.VersionNum
+and gu.defid=25006471 and gu.attrid=22 and gu.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gu.VerNum = dt.VersionNum
+and gv.defid=25006471 and gv.attrid=23 and gv.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gv.VerNum = dt.VersionNum
+and gw.defid=25006471 and gw.attrid=24 and gw.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gw.VerNum = dt.VersionNum
+and gx.defid=25006471 and gx.attrid=25 and gx.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gx.VerNum = dt.VersionNum
+and gy.defid=25006471 and gy.attrid=27 and gy.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gy.VerNum = dt.VersionNum
+and gz.defid=25006471 and gz.attrid=28 and gz.DefVerN=(select max(defvern) from LLAttrData where defid=25006471) and gz.VerNum = dt.VersionNum
+
+
+and aa.defid=131708 and aa.attrid=2 and aa.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and aa.VerNum = dt.VersionNum
+and ab.defid=131708 and ab.attrid=6 and ab.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ab.VerNum = dt.VersionNum
+and ac.defid=131708 and ac.attrid=3 and ac.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ac.VerNum = dt.VersionNum
+and ae.defid=131708 and ae.attrid=4 and ae.DefVerN=(select max(defvern) from LLAttrData where defid=131708) and ae.VerNum = dt.VersionNum
+and da.AncestorID=25037237 and dt.subtype=144
